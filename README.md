@@ -2,7 +2,7 @@
 
 ## Description
 
-Tool to sample a random uniform Wheeler DFA (WDFA) with the given number of nodes, number of edges and alphabet size.
+Tool to sample a random uniform Wheeler DFA (WDFA) with the given number of nodes, number of edges, and alphabet size.
 
 ### Requirements
 
@@ -12,7 +12,7 @@ Tool to sample a random uniform Wheeler DFA (WDFA) with the given number of node
 
 ### Download
 
-To clone the repository, run:
+To clone the repository, run the following command:
 
 ```console
 git clone https://github.com/regindex/Wheeler-DFA-generation
@@ -29,7 +29,7 @@ make
 
 ### Input
 
-You need to give in input the number of states ($n$), the size of the alphabet ($\sigma$) and the number of edges ($m$) of the resulting uniform WDFA.
+You need to give in input the number of states ($n$), the size of the alphabet ($\sigma$), and the number of edges ($m$) of the resulting uniform WDFA.
 These input values must respect the following constraints:
 
 * unordered list
@@ -65,7 +65,7 @@ python3 gen-WDFA.py -n 5 -m 4 -a 4 -o test.wdfa
 ```
 
 This command will generate a WDFA with $n$ nodes and $m$ edges labeled with an alphabet of size $a = \sigma$. The resulting WDFA is streamed to the 'test.wdfa' file.
-The output will be written in an intermediate format (see below for an example), the source state is marked as 0.
+The output will be written in an intermediate format (see below for an example), and the source state marked as 0.
 
 ```
 5 8 4 0
@@ -84,7 +84,7 @@ The output will be written in an intermediate format (see below for an example),
 ```
 
 The first line contains the number of states, number of edges, alphabet size, and source node separated by newline characters. Each other line contains either a label or an edge (pair of states: origin-destination). All edges between two consecutive labels, c and c', are labeled with c. For instance, the two edges 0 1 and 2 1 are labeled with 0.
-Using the '--binary' flag, it is possible to stream the resulting WDFA in binary format (the fastest method); in this case, each line after the first contains three integers representing an edge (origin label destination). The integers in the first line are represented using 64 bits, while the others can be represented using either 32 bits (if $n < 2^32 - 1$) or 64 bits. 
+Using the '--binary' flag, it is possible to stream the resulting WDFA in binary format (the fastest method); in this case, each line after the first contains three integers representing an edge (origin label destination). The integers in the first line are represented using 64 bits, while the others can be represented using either 32 bits (if $n < 2^{32} - 1$) or 64 bits. 
 
 ### External resources
 
