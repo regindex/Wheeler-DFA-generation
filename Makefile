@@ -9,7 +9,7 @@ OUT_DIR = exec
 MKDIR_P = mkdir -p
 
 # main executables 
-EXECS = $(OUT_DIR)/gen-dfa.x $(OUT_DIR)/gen-dfa-file.x $(OUT_DIR)/gen-dfa-bin.x $(OUT_DIR)/gen-dfa-bin-64.x
+EXECS = $(OUT_DIR)/gen-dfa.x $(OUT_DIR)/gen-dfa-file.x $(OUT_DIR)/gen-dfa-dot.x $(OUT_DIR)/gen-dfa-bin.x $(OUT_DIR)/gen-dfa-bin-64.x
 
 # targets not producing a file declared phony
 .PHONY: build clean
@@ -24,6 +24,9 @@ $(OUT_DIR)/gen-dfa.x: internal/cons-spa-WDFA-gen.cpp
 
 $(OUT_DIR)/gen-dfa-file.x: internal/cons-spa-WDFA-gen.cpp
 	$(CCX) $(CCX_FLAGS) -o $@ internal/cons-spa-WDFA-gen.cpp -DOFILE
+
+$(OUT_DIR)/gen-dfa-dot.x: internal/cons-spa-WDFA-gen.cpp
+	$(CCX) $(CCX_FLAGS) -o $@ internal/cons-spa-WDFA-gen.cpp -DDOT
 
 $(OUT_DIR)/gen-dfa-bin.x: internal/cons-spa-WDFA-gen-bin.cpp
 	$(CCX) $(CCX_FLAGS) -o $@ internal/cons-spa-WDFA-gen-bin.cpp

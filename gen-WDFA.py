@@ -9,6 +9,7 @@ Tool to generate random uniform Wheeler DFAs.
 """
 
 dirname = os.path.dirname(os.path.abspath(__file__))
+gendfa_dot_exe    =  dirname + "/exec/gen-dfa-dot.x"
 gendfa_file_exe    =  dirname + "/exec/gen-dfa-file.x"
 gendfa_bin_exe     =  dirname + "/exec/gen-dfa-bin.x"
 gendfa_bin_64_exe  =  dirname + "/exec/gen-dfa-bin-64.x"
@@ -18,6 +19,7 @@ def main():
     parser.add_argument('-n', '--N', help='number of states', default = 0, type=int)
     parser.add_argument('-m', '--M', help='number of edges', default = 0, type=int)
     parser.add_argument('-a', '--A', help='alphabet size (def. 128)', default = 128, type=int)
+    parser.add_argument('--interm',  help='output the resulting WDFA in intermediate format (def. False)', action='store_true')
     parser.add_argument('--binary',  help='output the resulting WDFA in binary format (def. False)', action='store_true')
     parser.add_argument('-o', '--O', help='output file basename (def. n_m_a.wdfa)', default = " ", type=str)
     parser.add_argument('-s', '--S', help='random number generation seed (def. rand)', default = -1, type=int)
@@ -45,7 +47,7 @@ def main():
             else:
                 command += " 0"
 
-            print("==== generate a random WDFA (binary mode, 64 bit mode). Command: ", command)
+            print("==== generate a random WDFA (binary format, 64 bit mode). Command: ", command)
             if(execute_command(command)!=True):
                 return
 
@@ -58,11 +60,11 @@ def main():
             else:
                 command += " 0"
 
-            print("==== generate a random WDFA (binary mode, 32 bit mode). Command: ", command)
+            print("==== generate a random WDFA (binary format, 32 bit mode). Command: ", command)
             if(execute_command(command)!=True):
                 return
 
-    else:
+    elif args.interm:
 
         command = "{exe} {n} {m} {a} {out} {seed}".format(exe=gendfa_file_exe, n=str(args.N), m=str(args.M), a=str(args.A), out=args.O, seed=args.S)
 
@@ -71,7 +73,20 @@ def main():
         else:
             command += " 0"
 
-        print("==== generate a random WDFA. Command: ", command)
+        print("==== generate a random WDFA (intermediate format). Command: ", command)
+        if(execute_command(command)!=True):
+            return
+
+    else:
+
+        command = "{exe} {n} {m} {a} {out} {seed}".format(exe=gendfa_dot_exe, n=str(args.N), m=str(args.M), a=str(args.A), out=args.O, seed=args.S)
+
+        if args.verbose:
+            command += " 1"
+        else:
+            command += " 0"
+
+        print("==== generate a random WDFA (dot format). Command: ", command)
         if(execute_command(command)!=True):
             return
 

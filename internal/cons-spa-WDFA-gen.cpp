@@ -40,7 +40,8 @@ int main(int argc, char** argv) {
         while(!valid)
         {
 
-            #ifdef OFILE
+            //#ifdef OFILE || DOT
+            #if defined(OFILE) || defined(DOT)
             {
                 ofile.open(out); 
             }
@@ -57,6 +58,10 @@ int main(int argc, char** argv) {
             #ifdef OFILE
             {
                 ofile << n << " " << m << " " << sigma <<  " " << 0 << "\n";
+            }
+            #elif DOT
+            {
+                ofile << "strict digraph {\n";
             }
             #else
             {
@@ -94,11 +99,8 @@ int main(int argc, char** argv) {
                     {
                         ofile << col-1 << "\n";
                     }
-                    #else
-                    {
-                        std::cout << col-1 << "\n";
-                    }
                     #endif
+
                 }
                 else
                 {
@@ -116,9 +118,9 @@ int main(int argc, char** argv) {
                 {
                     ofile << u-1 << " " << v << "\n";
                 }
-                #else
+                #elif DOT
                 {
-                    std::cout << u-1 << " " << v << "\n";
+                    ofile << "\t" << u-1 << " -> " << v << " [ label = " << col-1 << " ];\n";
                 }
                 #endif
             }
@@ -134,6 +136,11 @@ int main(int argc, char** argv) {
         
         #ifdef OFILE
         {
+            ofile.close();
+        }
+        #elif DOT
+        {
+            ofile << "}";
             ofile.close();
         }
         #endif

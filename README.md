@@ -40,16 +40,17 @@ These input values must respect the following constraints:
 ### Usage
 
 ```
-usage: gen-WDFA.py [-h] [-n N] [-m M] [-a A] [--binary] [-o O] [-s S]
-                   [--verbose]
+usage: gen-WDFA.py [-h] [-n N] [-m M] [-a A] [--interm] [--binary] [-o O]
+                   [-s S] [--verbose]
 
-Tool to generate uniform random Wheeler DFAs.
+Tool to generate random uniform Wheeler DFAs.
 
 optional arguments:
   -h, --help   show this help message and exit
   -n N, --N N  number of states
   -m M, --M M  number of edges
   -a A, --A A  alphabet size (def. 128)
+  --interm     output the resulting WDFA in intermediate format (def. False)
   --binary     output the resulting WDFA in binary format (def. False)
   -o O, --O O  output file basename (def. n_m_a.wdfa)
   -s S, --S S  random number generation seed (def. rand)
@@ -65,7 +66,22 @@ python3 gen-WDFA.py -n 5 -m 4 -a 4 -o test.wdfa
 ```
 
 This command will generate a WDFA with $n$ nodes and $m$ edges labeled with an alphabet of size $a = \sigma$. The resulting WDFA is streamed to the 'test.wdfa' file.
-The output will be written in an intermediate format (see below for an example), and the source state marked as 0.
+The output will be written in dot format (see below for an example), and the source state marked as 0.
+
+```
+strict digraph {
+  0 -> 1 [ label = 0 ];
+  2 -> 1 [ label = 0 ];
+  3 -> 2 [ label = 1 ];
+  4 -> 2 [ label = 1 ];
+  0 -> 3 [ label = 2 ];
+  1 -> 3 [ label = 2 ];
+  2 -> 3 [ label = 2 ];
+  3 -> 4 [ label = 3 ];
+}
+```
+
+Enabling the '--interm' flag the tool can also output the resulting WDFA in an intermediate format (see below for an example), 
 
 ```
 5 8 4 0
@@ -84,7 +100,7 @@ The output will be written in an intermediate format (see below for an example),
 ```
 
 The first line contains the number of states, number of edges, alphabet size, and source node separated by newline characters. Each other line contains either a label or an edge (pair of states: origin-destination). All edges between two consecutive labels, c and c', are labeled with c. For instance, the two edges 0 1 and 2 1 are labeled with 0.
-Using the '--binary' flag, it is possible to stream the resulting WDFA in binary format (the fastest method); in this case, each line after the first contains three integers representing an edge (origin label destination). The integers in the first line are represented using 64 bits, while the others can be represented using either 32 bits (if $n < 2^{32} - 1$) or 64 bits. 
+Using the '--binary' flag, it is possible to stream the resulting WDFA in binary format (the fastest method); in this case, each line after the first contains three integers representing an edge (origin label destination). The integers in the first line are represented using 64 bits, while the others can be represented using either 32 bits (if $n < 2^{32}$) or 64 bits. 
 
 ### External resources
 
